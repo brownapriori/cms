@@ -1,3 +1,7 @@
+require('dotenv').config({
+  path: ['.env.local', '.env'],
+})
+
 import {defineCliConfig} from 'sanity/cli'
 
 export default defineCliConfig({

@@ -1,3 +1,7 @@
+require('dotenv').config({
+  path: ['.env.local', '.env'],
+})
+
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
@@ -7,8 +11,8 @@ export default defineConfig({
   name: 'default',
   title: 'A Priori',
 
-  projectId: 'x0eiwhvz',
-  dataset: 'production',
+  projectId: process.env.SANITY_PROJECT_ID,
+  dataset: process.env.SANITY_DATASET,
 
   plugins: [structureTool(), visionTool()],
 

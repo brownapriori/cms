@@ -34,12 +34,13 @@ export const role = defineType({
   preview: {
     select: {
       title: 'title',
+      hierarchy: 'hierarchy',
       order: 'order',
     },
-    prepare({title, order}) {
+    prepare({title, hierarchy, order}) {
       return {
         title,
-        subtitle: order !== undefined ? `Order: ${order}` : '',
+        subtitle: `H: ${hierarchy} / O: ${order}`,
       }
     },
   },

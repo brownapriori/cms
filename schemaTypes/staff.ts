@@ -1,9 +1,9 @@
-import {defineType, defineField} from 'sanity'
+import {defineType, defineField, defineArrayMember} from 'sanity'
 import {UsersIcon} from '@sanity/icons'
 
 export const staff = defineType({
   name: 'staff',
-  title: 'Staff & Contributors',
+  title: 'Staff',
   type: 'document',
   icon: UsersIcon,
   fields: [
@@ -14,11 +14,17 @@ export const staff = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'role',
-      title: 'Role',
-      type: 'reference',
-      to: [{type: 'role'}],
-      description: 'Primary role in the journal',
+      name: 'roles',
+      title: 'Roles',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'role'}],
+        }),
+      ],
+      description: 'All roles this person has in the journal',
+      validation: (rule) => rule.required().min(1),
     }),
     defineField({
       name: 'isActive',
@@ -31,7 +37,15 @@ export const staff = defineType({
   preview: {
     select: {
       title: 'name',
-      subtitle: 'role.title',
+      role0: 'roles.0.title',
+      role1: 'roles.1.title',
+    },
+    prepare({title, role0, role1}) {
+      const roles = [role0, role1].filter(Boolean)
+      return {
+        title,
+        subtitle: roles.length ? roles.join(', ') : '',
+      }
     },
   },
 })
