@@ -1,5 +1,5 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
-import {DocumentIcon} from '@sanity/icons'
+import {DocumentIcon, AsteriskIcon} from '@sanity/icons'
 
 export const paper = defineType({
   name: 'paper',
@@ -70,12 +70,40 @@ export const paper = defineType({
                 name: 'footnote',
                 title: 'Footnote',
                 type: 'object',
+                icon: AsteriskIcon,
                 fields: [
                   defineField({
-                    name: 'text',
-                    title: 'Footnote Text',
-                    type: 'text',
-                    rows: 3,
+                    name: 'content',
+                    title: 'Footnote Content',
+                    type: 'array',
+                    of: [
+                      defineArrayMember({
+                        type: 'block',
+                        styles: [{title: 'Normal', value: 'normal'}],
+                        lists: [],
+                        marks: {
+                          decorators: [
+                            {title: 'Strong', value: 'strong'},
+                            {title: 'Emphasis', value: 'em'},
+                          ],
+                          annotations: [
+                            {
+                              name: 'link',
+                              title: 'Link',
+                              type: 'object',
+                              fields: [
+                                defineField({
+                                  name: 'href',
+                                  title: 'URL',
+                                  type: 'url',
+                                  validation: (rule) => rule.required(),
+                                }),
+                              ],
+                            },
+                          ],
+                        },
+                      }),
+                    ],
                     validation: (rule) => rule.required(),
                   }),
                 ],
