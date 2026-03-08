@@ -31,6 +31,12 @@ export const volume = defineType({
       description: 'Optional theme or title for this volume',
     }),
     defineField({
+      name: 'eics',
+      title: 'Editor(s)-in-Chief',
+      type: 'string',
+      description: 'The Editors-in-Chief of this volume',
+    }),
+    defineField({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
