@@ -29,8 +29,7 @@ export const paper = defineType({
       type: 'array',
       of: [
         defineArrayMember({
-          type: 'reference',
-          to: [{type: 'staff'}],
+          type: 'string',
         }),
       ],
       validation: (rule) => rule.required().min(1),
@@ -50,12 +49,42 @@ export const paper = defineType({
       of: [
         defineArrayMember({
           type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
+          styles: [
+            {title: 'Normal', value: 'normal'},
+            {title: 'H2', value: 'h2'},
+            {title: 'H3', value: 'h3'},
+            {title: 'Quote', value: 'blockquote'},
+          ],
+          lists: [
+            {title: 'Bullet', value: 'bullet'},
+            {title: 'Number', value: 'number'},
+          ],
           marks: {
-            decorators: [{title: 'Strong', value: 'strong'}, {title: 'Emphasis', value: 'em'}],
+            decorators: [
+              {title: 'Strong', value: 'strong'},
+              {title: 'Emphasis', value: 'em'},
+              {title: 'Code', value: 'code'},
+            ],
+            annotations: [
+              {
+                name: 'footnote',
+                title: 'Footnote',
+                type: 'object',
+                fields: [
+                  defineField({
+                    name: 'text',
+                    title: 'Footnote Text',
+                    type: 'text',
+                    rows: 3,
+                    validation: (rule) => rule.required(),
+                  }),
+                ],
+              },
+            ],
           },
         }),
       ],
+      validation: (rule) => rule.required().min(1),
     }),
     defineField({
       name: 'publishedAt',
@@ -84,8 +113,8 @@ export const paper = defineType({
   preview: {
     select: {
       title: 'title',
-      author0: 'authors.0.name',
-      author1: 'authors.1.name',
+      author0: 'authors.0',
+      author1: 'authors.1',
       publishedAt: 'publishedAt',
     },
     prepare({title, author0, author1, publishedAt}) {
