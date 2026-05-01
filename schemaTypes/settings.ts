@@ -6,45 +6,72 @@ export const settings = defineType({
   title: 'Site Settings',
   type: 'document',
   icon: CogIcon,
+  options: {
+    singleton: true,
+  },
   fields: [
     defineField({
-      name: 'title',
-      title: 'Journal Title',
-      type: 'string',
-      validation: (rule) => rule.required(),
+      name: 'featuredArticles',
+      title: 'Featured Articles',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'journalArticle'}],
+        }),
+      ],
+      description: 'Articles featured on the home page (max 8)',
+      validation: (rule) => rule.max(8),
     }),
     defineField({
-      name: 'subtitle',
-      title: 'Journal Title',
-      type: 'string',
-      validation: (rule) => rule.required(),
+      name: 'submissionsBannerActive',
+      title: 'Call to Submissions Banner Active',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({ 
+      name: 'submissionsVolume',
+      title: 'Submissions Volume',
+      type: 'reference',
+      to: [{type: 'volume'}],
+      description: 'The volume currently accepting submissions',
+      hidden: ({document}) => !document?.submissionsBannerActive,
     }),
     defineField({
-      name: 'contactEmail',
-      title: 'Contact Email',
-      type: 'email',
-    }),
-    defineField({
-      name: 'social',
-      title: 'Social Media',
+      name: 'readVolumeCTA',
+      title: 'Read Volume CTA',
       type: 'object',
       fields: [
         defineField({
-          name: 'twitter',
-          title: 'Twitter/X',
-          type: 'string',
-          description: 'Username without @',
+          name: 'volumeNumber',
+          title: 'Volume Number',
+          type: 'number',
+          description: 'The volume number this CTA links to',
+          validation: (rule) => rule.integer().positive(),
         }),
         defineField({
-          name: 'facebook',
-          title: 'Facebook',
-          type: 'url',
+          name: 'title',
+          title: 'Title',
+          type: 'string',
         }),
         defineField({
-          name: 'instagram',
-          title: 'Instagram',
+          name: 'contents',
+          title: 'Contents',
+          type: 'text',
+          rows: 3,
+        }),
+        defineField({
+          name: 'position',
+          title: 'Position',
           type: 'string',
-          description: 'Username without @',
+          options: {
+            list: [
+              {title: 'Below navigation bar', value: 'belowNav'},
+              {title: 'Below featured articles', value: 'belowFeatured'},
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'belowNav',
         }),
       ],
     }),
@@ -52,7 +79,9 @@ export const settings = defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'description',
+    },
+    prepare({title}) {
+      return {title: title ?? 'Site Settings'}
     },
   },
 })
