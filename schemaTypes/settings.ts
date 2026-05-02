@@ -86,13 +86,38 @@ export const settings = defineType({
         defineField({
           name: 'title',
           title: 'Title',
-          type: 'string',
+          description: 'Bold text renders in red',
+          type: 'array',
+          of: [
+            defineArrayMember({
+              type: 'block',
+              styles: [{title: 'Normal', value: 'normal'}],
+              lists: [],
+              marks: {
+                decorators: [{title: 'Bold (Red)', value: 'strong'}],
+                annotations: [],
+              },
+            }),
+          ],
         }),
         defineField({
           name: 'contents',
           title: 'Contents',
-          type: 'text',
-          rows: 3,
+          type: 'array',
+          of: [
+            defineArrayMember({
+              type: 'block',
+              styles: [{title: 'Normal', value: 'normal'}],
+              lists: [],
+              marks: {
+                decorators: [
+                  {title: 'Bold', value: 'strong'},
+                  {title: 'Italic', value: 'em'},
+                ],
+                annotations: [],
+              },
+            }),
+          ],
         }),
         defineField({
           name: 'position',
