@@ -1,4 +1,4 @@
-import {defineType, defineField} from 'sanity'
+import {defineType, defineField, defineArrayMember} from 'sanity'
 import {UserIcon} from '@sanity/icons'
 
 export const role = defineType({
@@ -29,6 +29,13 @@ export const role = defineType({
       description:
         'Lower numbers appear first. Items in the same row will be ordered according to their display order.',
       validation: (rule) => rule.integer().min(0),
+    }),
+    defineField({
+      name: 'members',
+      title: 'Members',
+      type: 'array',
+      of: [defineArrayMember({type: 'string'})],
+      description: 'Paste one name per entry. Displayed alphabetically by last name.',
     }),
   ],
   preview: {

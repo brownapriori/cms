@@ -11,6 +11,12 @@ export const settings = defineType({
   },
   fields: [
     defineField({
+      name: 'mastheadOrdinal',
+      title: 'Masthead Ordinal',
+      type: 'string',
+      description: 'The ordinal in "The ___ Editorial Board", e.g. "9th"',
+    }),
+    defineField({
       name: 'featuredArticles',
       title: 'Featured Articles',
       type: 'array',
