@@ -112,7 +112,6 @@ export const journalArticle = defineType({
           },
         }),
       ],
-      validation: (rule) => rule.required().min(1),
     }),
     defineField({
       name: 'pageRange',
@@ -128,6 +127,22 @@ export const journalArticle = defineType({
           name: 'end',
           title: 'End Page',
           type: 'number',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        defineField({
+          name: 'caption',
+          title: 'Image Caption',
+          type: 'string',
+          description: 'e.g. "The U.S. Department of State"',
         }),
       ],
     }),
