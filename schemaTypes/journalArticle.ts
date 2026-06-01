@@ -17,10 +17,9 @@ export const journalArticle = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
+      description:
+        'The URL generated from the volume. Locked once set for permanent accessibility.',
+      readOnly: ({value}) => Boolean(value?.current),
       validation: (rule) => rule.required(),
     }),
     defineField({
